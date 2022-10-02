@@ -20,8 +20,7 @@
         div.tooltip {   
             position: absolute;           
             text-align: center;           
-            width: 60px;                  
-            height: 28px;                 
+            display: inline-block;                 
             padding: 2px;             
             font: 12px sans-serif;        
             background: white;   
@@ -98,12 +97,13 @@
                 .style("fill", "#2c7fb8")
 
                 .on("mouseover", function (event, d) {
+                    const[x, y] = d3.pointer(event);
                     div.transition()
                         .duration(200)
                         .style("opacity", .9);
                         div.text(d.description + ", " + d.name)
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px");
+                        .style("left", (x + 175) + "px")
+                        .style("top", (y + 30) + "px");
                 })
 
                 // fade out tooltip on mouse out               
