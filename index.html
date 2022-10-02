@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Geographic Vectors</title>
+    <!--Load d3.js-->
+    <script src="https://d3js.org/d3.v6.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v3.min.js"></script>
+    <style>
+        /* .selected {
+            opacity: 1 !important;
+            stroke: black;
+            stroke-width: 1px;
+        }
+
+        .axis-grid line {
+            stroke: #def;
+        } */
+    </style>
+    <br>
+    <!-- <header style="text-align: center;">Hypothesis: Songs in the Spotify weekly charts stay the longest on the weekly
+        charts when they have the most danceability.</header> -->
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <div>
+        <svg id="USA" width="1000" height="1000"></svg>
+    </div>
+    <script>
+        // The svg
+        const svg = d3.select("svg"),
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        // Map and projection. Try:  d3.geoAiry() / d3.geoAitoff() / d3.geoArmadillo() / d3.geoAugust() / d3.geoAzimuthalEqualArea() / d3.geoAzimuthalEquidistant() and more
+        const projection = d3.geoAlbersUsa() 
+            .scale(1000)
+            .translate([width / 2, height / 2])
+
+        // Load external data and boot
+        d3.json("usa.geojson").then(function (data) {
+
+            // Draw the map
+            svg.append("g")
+                .selectAll("path")
+                .data(data.features)
+                .join("path")
+                .attr("fill", "#69b3a2")
+                .attr("d", d3.geoPath()
+                    .projection(projection)
+                )
+                .style("stroke", "#fff")
+        })
+    </script>
+</body>
+
+</html>
