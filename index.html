@@ -8,52 +8,90 @@
     <script src="https://d3js.org/d3.v6.js"></script>
     <script src="https://d3js.org/d3-geo-projection.v3.min.js"></script>
     <style>
-        /* .selected {
-            opacity: 1 !important;
-            stroke: black;
-            stroke-width: 1px;
+        path:hover {
+            fill-opacity: 0.8;
         }
 
-        .axis-grid line {
-            stroke: #def;
-        } */
+        body {
+            font: 11px sans-serif;
+        }
     </style>
     <br>
-    <!-- <header style="text-align: center;">Hypothesis: Songs in the Spotify weekly charts stay the longest on the weekly
-        charts when they have the most danceability.</header> -->
+    <header style="text-align: center;">Hypothesis: There are more fire stations in the northwestern part of the United
+        States </header>
 </head>
 
 <body>
     <br>
     <br>
     <br>
-    <div>
+    <div style="text-align: center;">
         <svg id="USA" width="1000" height="1000"></svg>
     </div>
     <script>
         // The svg
-        const svg = d3.select("svg"),
+        const svg = d3.select("#USA"),
             width = +svg.attr("width"),
             height = +svg.attr("height");
 
+        svg.append("g")
+            .attr("id", "states")
+        svg.append("g")
+            .attr("id", "capitals")
+
         // Map and projection. Try:  d3.geoAiry() / d3.geoAitoff() / d3.geoArmadillo() / d3.geoAugust() / d3.geoAzimuthalEqualArea() / d3.geoAzimuthalEquidistant() and more
-        const projection = d3.geoAlbersUsa() 
+        let projection = d3.geoAlbersUsa()
             .scale(1000)
             .translate([width / 2, height / 2])
 
         // Load external data and boot
-        d3.json("usa.geojson").then(function (data) {
+        d3.json("test1.geojson").then(function (data) {
 
             // Draw the map
-            svg.append("g")
+            svg.select("#states")
                 .selectAll("path")
                 .data(data.features)
                 .join("path")
-                .attr("fill", "#69b3a2")
+                .attr("fill", "#eaf7a1")
                 .attr("d", d3.geoPath()
                     .projection(projection)
                 )
-                .style("stroke", "#fff")
+                .attr("id", "stateCapitals")
+                .style("stroke", "#636363")
+        })
+
+        d3.csv("us-state-capitals.csv").then(function (data) {
+
+            // Draw the capitals
+            svg.select("#capitals")
+                .selectAll("circle")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", function (d) {
+                    return projection([d.longitude, d.latitude])[0];
+                })
+                .attr("cy", function (d) {
+                    return projection([d.longitude, d.latitude])[1];
+                })
+                .attr("r", "4")
+                .style("fill", "#2c7fb8")
+
+                .on("mouseover", function (d) {
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    div.text(d.description + ", " + d.state)
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px");
+                })
+
+                // fade out tooltip on mouse out               
+                .on("mouseout", function (d) {
+                    div.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
         })
     </script>
 </body>
