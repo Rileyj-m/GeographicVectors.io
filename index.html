@@ -39,7 +39,7 @@
         }
 
         .legend {
-            position: fixed;
+            position: absolute;
             left: 950px;
             top: 725px;
         }
@@ -89,7 +89,7 @@
             .translate([width / 2, height / 2])
 
         // Append Div for tooltip to SVG
-        var div = d3.select("body")
+        var div = d3.select("#Origin")
             .append("div")
             .attr("class", "tooltip")
             .style("opacity", 0);
