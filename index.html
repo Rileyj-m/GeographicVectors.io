@@ -39,8 +39,8 @@
         }
 
         .legend {
-            position: absolute;
-            left: 975px;
+            position: fixed;
+            left: 950px;
             top: 725px;
         }
     </style>
@@ -58,7 +58,7 @@
     <br>
     <hr>
     <br>
-    <div style="text-align: center;">
+    <div id = "Origin" style="text-align: center;">
         <svg id="USA" width="1000" height="1000"></svg>
     </div>
     <script>
@@ -81,7 +81,7 @@
             .attr("class", "title")
             .attr("font-style", "sans-serif")
             .attr("font-size", "20px")
-            .text("Wind Turbines in the United States");
+            .text("Wind Turbine Farms in the United States");
 
         // Map and projection. Try:  d3.geoAiry() / d3.geoAitoff() / d3.geoArmadillo() / d3.geoAugust() / d3.geoAzimuthalEqualArea() / d3.geoAzimuthalEquidistant() and more
         let projection = d3.geoAlbersUsa()
@@ -167,7 +167,7 @@
                 .style("fill", "#7fcdbb")
         });
 
-        var legend = d3.select("body").append("svg")
+        var legend = d3.select("#Origin").append("svg")
             .attr("class", "legend")
             .attr("width", 140)
             .attr("height", 200)
